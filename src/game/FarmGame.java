@@ -162,7 +162,7 @@ public class FarmGame implements Runnable{
                     System.out.printf("현재 자산: %d원\n\n", money);
                     break;
                 case "1":
-                    Crop.Tomato tomato = new Crop.Tomato();
+                    Tomato tomato = new Tomato();
                     plant(tomato);
                     System.out.printf("-> 토마토 씨앗을 심었습니다! (-%d원)\n", Vegetable.getSeedPrice());
                     System.out.printf("현재 자산: %d원\n\n", money);
