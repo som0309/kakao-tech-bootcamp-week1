@@ -17,23 +17,19 @@ public class Main {
         String isStart = scanner.next();
         System.out.println();
 
-        FarmGame farmGame = new FarmGame();
+        FarmGame farmGame = new FarmGame(scanner);
         FarmTime farmTime = new FarmTime(farmGame);
 
-        if (isStart.equals("yes")) {
-            farmGame.start();
-            Thread thread1 = new Thread(farmGame);
-            Thread thread2 = new Thread(farmTime);
-            farmGame.setFarmTimeThread(thread2);
+        if (!isStart.equals("yes")) {
+            return;
+        }
 
-            thread1.start();
-            thread2.start();
-        }
-        else if (isStart.equals("no")) {
-            return;
-        }
-        else {
-            return;
-        }
+        farmGame.start();
+        Thread thread1 = new Thread(farmGame);
+        Thread thread2 = new Thread(farmTime);
+        farmGame.setFarmTimeThread(thread2);
+
+        thread1.start();
+        thread2.start();
     }
 }

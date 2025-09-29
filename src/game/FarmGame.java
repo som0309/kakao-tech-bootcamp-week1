@@ -10,12 +10,16 @@ import java.util.Scanner;
 public class FarmGame implements Runnable{
 
     private Thread farmTimeThread;
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
     private boolean running;
     volatile private boolean isWaitingForInput;
 
     private List<Crop> crops = new ArrayList<>();
     private int money;
+
+    public FarmGame(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void setFarmTimeThread(Thread farmTimeThread) {
         this.farmTimeThread = farmTimeThread;
@@ -103,23 +107,13 @@ public class FarmGame implements Runnable{
                     int freshness = veg.setFreshness();
                     finalPrice = crop.calculateSellingPrice();
                     System.out.printf("%s를 수확했습니다! (신선도: %d)\n", crop.getName(), freshness);
-                    if (crop.getIsUpgrade()) {
-                        System.out.printf("-> 작물 가공에 성공하였습니다! (판매가: %d)\n", finalPrice);
-                    }
-                    else {
-                        System.out.printf("-> 작물 가공에 실패하였습니다. (판매가: %d)\n", finalPrice);
-                    }
+                    printIsUpgrade(crop, finalPrice);
                 }
                 else if (crop instanceof Fruit fru) {
                     int sweetness = fru.setSweetness();
                     finalPrice = crop.calculateSellingPrice();
                     System.out.printf("%s를 수확했습니다! (당도: %d)\n", crop.getName(), sweetness);
-                    if (crop.getIsUpgrade()) {
-                        System.out.printf("-> 작물 가공에 성공하였습니다! (판매가: %d)\n", finalPrice);
-                    }
-                    else {
-                        System.out.printf("-> 작물 가공에 실패하였습니다. (판매가: %d)\n", finalPrice);
-                    }
+                    printIsUpgrade(crop, finalPrice);
                 }
                 else {
                     throw new IllegalArgumentException("지원하지 않는 객체 타입");
@@ -131,6 +125,15 @@ public class FarmGame implements Runnable{
         }
 
         return money;
+    }
+
+    private void printIsUpgrade(Crop crop, int finalPrice) {
+        if (crop.getIsUpgrade()) {
+            System.out.printf("-> 작물 가공에 성공하였습니다! (판매가: %d)\n", finalPrice);
+        }
+        else {
+            System.out.printf("-> 작물 가공에 실패하였습니다. (판매가: %d)\n", finalPrice);
+        }
     }
 
     @Override
